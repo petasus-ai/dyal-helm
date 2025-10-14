@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dyal-config
+  namespace: {{ .Release.Namespace }}
+data:
+  SERVER_PORT: "{{ .Values.config.serverPort }}"
+  LOG_FORMAT: "{{ .Values.config.logFormat }}"
+  UFM_BASE_URL: "{{ .Values.config.ufmBaseUrl }}"

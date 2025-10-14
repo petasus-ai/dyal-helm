@@ -1,0 +1,98 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dyal
+  namespace: {{ .Release.Namespace }}
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dyal-petasus-v1
+rules:
+- apiGroups:
+  - "dyal.petasus.io"
+  resources:
+  - "*"
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - update
+  - patch
+  - delete
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubevirt-dyal-v1
+rules:
+  - apiGroups: ["kubevirt.io"]
+    resources:
+      - virtualmachines
+      - virtualmachineinstances
+      - virtualmachineinstancereplicasets
+      - virtualmachineinstancepresets
+      - virtualmachineinstancemigrations
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["subresources.kubevirt.io"]
+    resources:
+      - virtualmachines/start
+      - virtualmachines/stop
+      - virtualmachines/restart
+      - virtualmachines/addvolume
+      - virtualmachines/migrate
+      - virtualmachines/removevolume
+      - virtualmachineinstances/pause
+      - virtualmachineinstances/unpause
+      - virtualmachineinstances/guestosinfo
+      - virtualmachineinstances/userlist
+      - virtualmachineinstances/addvolume
+      - virtualmachineinstances/removevolume
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["cdi.kubevirt.io"]
+    resources:
+      - datavolumes
+      - datavolumes/source
+    verbs: ["*"]
+  - apiGroups: ["snapshot.kubevirt.io"]
+    resources:
+      - virtualmachinesnapshots
+      - virtualmachinerestores
+      - virtualmachinesnapshotcontents
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["clone.kubevirt.io"]
+    resources:
+      - virtualmachineclones
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dyal-petasus-v1
+subjects:
+- kind: ServiceAccount
+  name: dyal
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: dyal-petasus-v1
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubevirt-dyal-v1
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubevirt-dyal-v1
+subjects:
+- kind: ServiceAccount
+  name: dyal
+  namespace: {{ .Release.Namespace }}

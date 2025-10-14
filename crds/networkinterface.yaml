@@ -1,0 +1,72 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: networkinterfaces.dyal.petasus.io
+spec:
+  group: dyal.petasus.io
+  names:
+    kind: NetworkInterface
+    listKind: NetworkInterfaceList
+    plural: networkinterfaces
+    singular: networkinterface
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        type: object
+        required:
+        - spec
+        properties:
+          spec:
+            type: object
+            required:
+            - nicId
+            - fabricType
+            - nodeName
+            properties:
+              nicId:
+                maxLength: 64
+                type: string
+              fabricType:
+                enum:
+                - infiniband
+                - ethernet
+                type: string
+              nodeName:
+                maxLength: 64
+                type: string
+              vmName:
+                maxLength: 64
+                type: string
+              clusterName:
+                maxLength: 64
+                type: string
+              description:
+                maxLength: 64
+                type: string
+    served: true
+    storage: true
+    additionalPrinterColumns:
+    - jsonPath: .spec.nicId
+      name: NIC-ID
+      type: string
+    - jsonPath: .spec.fabricType
+      name: Fabric-Type
+      type: string
+    - jsonPath: .spec.nodeName
+      name: Node-Hostname
+      type: string
+    - jsonPath: .spec.vmName
+      name: VM-Hostname
+      type: string
+    - jsonPath: .spec.clusterName
+      name: Cluster-Name
+      type: string
+    - jsonPath: .spec.description
+      name: Description
+      type: string
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp
