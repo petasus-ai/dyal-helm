@@ -1,7 +1,7 @@
 image:
   registry: quay.io/edgestack
   repository: dyal
-  tag: latest
+  tag: stable-3.4
   pullPolicy: IfNotPresent
 
 ufm:
