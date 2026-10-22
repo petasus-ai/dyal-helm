@@ -1,6 +1,6 @@
 image:
-  registry: quay.io/edgestack
-  repository: dyal
+  registry: registry.tde.sktelecom.com/petasus
+  repository: dyal-backend
   tag: latest
   pullPolicy: IfNotPresent
 
