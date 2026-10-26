@@ -1,7 +1,8 @@
 image:
   registry: registry.tde.sktelecom.com/petasus
   repository: dyal-backend
-  tag: latest
+  # empty: the chart's appVersion, the release tag (dev on the dev channel)
+  tag: ""
   pullPolicy: IfNotPresent
 
 ufm:

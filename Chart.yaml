@@ -13,10 +13,10 @@
 # limitations under the License.
 
 apiVersion: v1
-appVersion: "3.5.0"
+appVersion: "v1.0.0"
 description: A Helm chart for dyal backend deployment
 name: dyal
-version: 3.5.0
+version: 1.0.0
 keywords:
   - AI
   - infiniband
